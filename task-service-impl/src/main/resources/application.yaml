@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+app:
+  scheduler:
+    cron: "0 * * * * *" # Раз в минуту
+    batch-size: 5
+  security:
+    technical-token: "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJURUNIIl0sInN1YiI6InRlY2hfdXNlciIsImlhdCI6MTc3MTk3MDIwOSwiZXhwIjoxODMwMjk3NTk5fQ.S0yxg10gmALwPXfMlAxnEafutW91pEmUHzOnbBdIXUU" # токен до 31 декабря 2027 года
+  services:
+    user-service:
+      url: "http://localhost:8080"
+
+spring:
+  application:
+    name: task-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic-name: "notification.message.in"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/common_db?currentSchema=us
+    username: user_admin
+    password: password
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
