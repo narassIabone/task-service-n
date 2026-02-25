@@ -1,25 +1,26 @@
 name: task-service
 
 services:
-  # На будущее: само приложение (impl)
-  # task-service-app:
-  #   build:
-  #     context: ../task-service-impl
-  #     dockerfile: Dockerfile
-  #   container_name: task-service-app
-  #   depends_on:
-  #     task-db-migrator:
-  #       condition: service_completed_successfully
-  #   ports:
-  #     - "8081:8080" # Внешний порт 8081, так как 8080 занят user-service
-  #   environment:
-  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://global-postgres:5432/common_db?currentSchema=ts
-  #     - SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA=ts
-  #     - SPRING_KAFKA_BOOTSTRAP_SERVERS=global-kafka:29092
-  #   networks:
-  #     - backend-net
+  task-service-app:
+    build:
+      context: ../task-service-impl
+      dockerfile: Dockerfile
+    container_name: task-service-app
+    depends_on:
+      task-db-migrator:
+        condition: service_completed_successfully
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://global-postgres:5432/common_db?currentSchema=us
+      - SPRING_DATASOURCE_USERNAME=user_admin
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA=us
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=global-kafka:29092
+      - APP_SERVICES_USER-SERVICE_URL=http://user-service-app:8080
+    networks:
+      - backend-net
 
-  # Мигратор БД (ликвибейс)
   task-db-migrator:
     image: task-service-db:latest
     container_name: task-service-migrator

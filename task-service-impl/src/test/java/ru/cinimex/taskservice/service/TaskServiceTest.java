@@ -21,7 +21,7 @@ import ru.cinimex.taskservice.dto.TaskResponseDto;
 import ru.cinimex.taskservice.dto.TaskSearchFilter;
 import ru.cinimex.taskservice.exception.TaskValidationException;
 import ru.cinimex.taskservice.mapper.TaskMapper;
-import ru.cinimex.taskservice.mapper.TaskMapperImpl; // Убедитесь, что проект скомпилирован и класс сгенерирован
+import ru.cinimex.taskservice.mapper.TaskMapperImpl;
 import ru.cinimex.taskservice.repository.TaskRepository;
 
 import java.time.LocalDateTime;

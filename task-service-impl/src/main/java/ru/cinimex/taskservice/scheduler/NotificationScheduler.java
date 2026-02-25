@@ -46,7 +46,6 @@ public class NotificationScheduler {
         log.debug("Notification scheduler started at {}", LocalDateTime.now());
 
         // 1. Получаем и блокируем N записей (Pessimistic Write + Skip Locked)
-        // Метод в репозитории должен быть помечен @Lock
         List<TaskEntity> tasks = taskRepository.findTasksToNotify(
                 LocalDateTime.now(),
                 PageRequest.of(0, batchSize)
@@ -72,8 +71,7 @@ public class NotificationScheduler {
                         task.getDescription()
                 );
 
-                // 4. Отправляем в Kafka (синхронно или асинхронно)
-                // Используем ID задачи как ключ сообщения для обеспечения порядка (если нужно)
+                // 4. Отправляем в Kafka
                 kafkaTemplate.send(topicName, task.getId().toString(), message)
                         .whenComplete((result, ex) -> {
                             if (ex == null) {

@@ -32,7 +32,7 @@ public class TaskEntity {
     private LocalDateTime notificateAt;
 
     @Column(name = "assignee", nullable = false)
-    private String assignee; // Логин из JWT
+    private String assignee;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

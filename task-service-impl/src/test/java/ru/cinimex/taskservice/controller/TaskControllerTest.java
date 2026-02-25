@@ -376,7 +376,6 @@ class TaskControllerTest {
         @Test
         @DisplayName("200 OK - Успешное удаление задачи")
         void deleteSuccess() throws Exception {
-            // Обучать мок doNothing() не обязательно, это поведение по умолчанию для void
             mockMvc.perform(delete(url)
                             .header("Authorization", getAuthHeader(USER_LOGIN, "USER")))
                     .andExpect(status().isOk());
