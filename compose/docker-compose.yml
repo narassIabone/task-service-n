@@ -22,7 +22,9 @@ services:
       - backend-net
 
   task-db-migrator:
-    image: task-service-db:latest
+    build:
+      context: ../task-service-db
+      dockerfile: Dockerfile
     container_name: task-service-migrator
     environment:
       - DB_URL=jdbc:postgresql://global-postgres:5432/common_db

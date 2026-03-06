@@ -30,7 +30,7 @@ public class NotificationScheduler {
     @Value("${app.scheduler.batch-size:5}")
     private int batchSize;
 
-    @Value("${app.security.technical-token}")
+    @Value("${app.security.technical_token}")
     private String techToken;
 
     @Value("${spring.kafka.topic-name:task-notifications}")

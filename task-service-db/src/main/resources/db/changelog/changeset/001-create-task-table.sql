@@ -1,4 +1,6 @@
-CREATE TABLE us.task (
+SET search_path TO ts;
+
+CREATE TABLE task (
                          id          UUID PRIMARY KEY,
                          title       TEXT         NOT NULL,
                          description TEXT,

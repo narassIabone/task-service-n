@@ -6,7 +6,7 @@ app:
     cron: "0 * * * * *" # Раз в минуту
     batch-size: 5
   security:
-    technical-token: "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJURUNIIl0sInN1YiI6InRlY2hfdXNlciIsImlhdCI6MTc3MTk3MDIwOSwiZXhwIjoxODMwMjk3NTk5fQ.S0yxg10gmALwPXfMlAxnEafutW91pEmUHzOnbBdIXUU" # токен до 31 декабря 2027 года
+    technical-token: ${APP_SECURITY_TECHNICAL_TOKEN}
   services:
     user-service:
       url: "http://localhost:8080"
@@ -22,7 +22,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/common_db?currentSchema=us
+    url: jdbc:postgresql://localhost:5432/common_db?currentSchema=ts
     username: user_admin
     password: password
     driver-class-name: org.postgresql.Driver
