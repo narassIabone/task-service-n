@@ -9,22 +9,32 @@ app:
     technical-token: ${APP_SECURITY_TECHNICAL_TOKEN}
   services:
     user-service:
-      url: "http://localhost:8080"
+      url: ${USER_SERVICE_URL:http://user-service:8080}
 
 spring:
   application:
     name: task-service
   kafka:
-    bootstrap-servers: localhost:9092
-    topic-name: "notification.message.in"
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    topic-name: ${KAFKA_TOPIC_NOTIFICATION:notification.message.in}
+    properties:
+      security.protocol: ${SPRING_KAFKA_PROPERTIES_SECURITY_PROTOCOL:PLAINTEXT}
+      ssl.truststore.location: ${SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_LOCATION:}
+      ssl.truststore.password: ${SPRING_KAFKA_PROPERTIES_SSL_TRUSTSTORE_PASSWORD:}
+      ssl.keystore.location: ${SPRING_KAFKA_PROPERTIES_SSL_KEYSTORE_LOCATION:}
+      ssl.keystore.password: ${SPRING_KAFKA_PROPERTIES_SSL_KEYSTORE_PASSWORD:}
+      ssl.key.password: ${SPRING_KAFKA_PROPERTIES_SSL_KEY_PASSWORD:}
+
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        properties:
+          spring.json.add.type.info.headers: false
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/common_db?currentSchema=ts
-    username: user_admin
-    password: password
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/common_db?currentSchema=ts}
+    username: ${SPRING_DATASOURCE_USERNAME:user_admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
     jpa:
       hibernate:
@@ -32,4 +42,4 @@ spring:
         highlight_sql: true
 
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}

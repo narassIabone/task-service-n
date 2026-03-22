@@ -12,15 +12,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.cinimex.taskservice.dto.KafkaNotificationMessage;
+import org.springframework.boot.kafka.autoconfigure.KafkaProperties;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 public class KafkaConfig {
-
-    @Value("${spring.kafka.bootstrap-servers:localhost:9092}")
-    private String bootstrapServers;
 
     @Value("${spring.kafka.topic-name:notification.message.in}")
     private String topicName;
@@ -34,19 +31,15 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<String, KafkaNotificationMessage> producerFactory() {
-        Map<String, Object> props = new HashMap<>();
-
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+    public ProducerFactory<String, KafkaNotificationMessage> producerFactory(KafkaProperties kafkaProperties) {
+        Map<String, Object> props = kafkaProperties.buildProducerProperties();
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
-
         return new DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean
-    public KafkaTemplate<String, KafkaNotificationMessage> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, KafkaNotificationMessage> kafkaTemplate(ProducerFactory<String, KafkaNotificationMessage> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
     }
 }
